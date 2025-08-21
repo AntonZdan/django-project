@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block 'title' %}Book catalogue{% endblock %}
+
+{% block 'content' %}
+<div class="filter-form">
+    <form method="get">
+        <label>Author:</label>
+        <select name="author">
+            <option value="">Choose:</option>
+            {% for author in authors %}
+            <option value="{{ author.id }}">{{ author.first_name }} {{ author.last_name }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Genre:</label>
+        <select name="genre">
+            <option value="">Choose:</option>
+            {% for genre in genres %}
+            <option value="{{ genre.id }}">{{ genre.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label>From year:</label>
+        <input type="number" placeholder="From" name="from_year">
+
+        <label>To year:</label>
+        <input type="number" placeholder="To" name="to_year">
+
+        <label>Order by:</label>
+        <select name="ordering">
+            <option value="">Choose:</option>
+            <option value="title">Title</option>
+            <option value="year">Year</option>
+        </select>
+
+
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+    {% if books %}
+    <div class="box-catalogue">
+        {% for book in books %}
+            <div class="book-container">
+                <h5>"{{ book.title }}" ({{ book.year }})</h5>
+                <p>Author: {{ book.author }}</p>
+                <small>Genre: {% for genre in book.genres.all %}{{ genre.name }}{% endfor %}</small>
+                <p><strong>Average rating:</strong>
+                   {% if book.avg_rating %}
+                        {{ book.avg_rating }}⭐
+                    {% else %}
+                     No rating
+                    {% endif %}
+                </p>
+                <a class="book-detail" href="{% url 'book_detail' book.pk %}">Rate book</a>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="no-book">No books found.</p>
+{% endif %}
+
+{% if is_paginated %}
+  <div class="pagination-container">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}">« Back</a>
+    {% endif %}
+
+    <span> {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">Next »</a>
+    {% endif %}
+
+  </div>
+{% endif %}
+{% endblock %}

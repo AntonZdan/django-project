@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block 'title' %}Book catalogue{% endblock %}
+{% block 'content' %}
+{% load static %}
+<main>
+        <div class="main-container">
+            <div class="left-site">
+                <h1>Welcome to the Book Catalogue!</h1>
+                <p>Looking for something to read? Dive into our catalogue and find a story that speaks to you.</p>
+                <div class="auth-btns">
+                    <a class="auth-btn auth-login" href="{% url 'login' %}">Sign IN</a>
+                    <a class="auth-btn auth-register" href="{% url 'register' %}">Sign UP</a>
+                </div>
+                <div class="contacts">
+                    <a href="https://www.facebook.com" target="_blank"><i class="bi-facebook"></i> Facebook</a>
+                    <a href="https://www.instagram.com" target="_blank"><i class="bi-instagram"></i> Instagram</a>
+                    <a href="https://www.twitter.com" target="_blank"><i class="bi-twitter"></i> Twitter</a>
+                </div>
+            </div>
+            <div class="right-site">
+                {% load static %}
+                <img class="main-image" src="{% static 'images/book_catalogue.jpg' %}" alt="Book Catalogue Image">
+
+            </div>
+        </div>
+    </main>
+{% endblock %}

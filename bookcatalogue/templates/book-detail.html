@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block 'content' %}
+<div class="box-about">
+  <h1>"{{ book.title }}"</h1>
+  <p><strong>Author:</strong> {{ book.author.first_name }} {{ book.author.last_name }}</p>
+  <p><strong>Year:</strong> {{ book.year }}</p>
+  <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+  <p><strong>Genres:</strong>
+    {% for genre in book.genres.all %}
+        {{ genre.name }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+  </p>
+  <p><strong>Average rating:</strong> {{ average_rating }}⭐ ({{ rating_count }})</p>
+
+</div>
+<div class="rating-container">
+    {% if user.is_authenticated %}
+        <form method="POST">
+            {% csrf_token %}
+            <select name="stars">
+              <option value="">Rate:</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button type="submit">Submit</button>
+        </form>
+    {% else %}
+        <p><a class="auth-btn" href="{% url 'login' %}">Please login to rate a book!</a></a></p>
+    {% endif %}
+    <a href="{% url 'catalogue' %}" class="auth-btn back-btn">Back</a>
+</div>
+
+
+{% endblock %}
